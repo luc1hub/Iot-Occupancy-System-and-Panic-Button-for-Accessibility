@@ -8,7 +8,7 @@ Proposta de sistema embarcado IoT focado em segurança, inclusão e acessibilida
 
 ## 👥 Autores
 * **Luciana Mieko Hassunuma** - UPM 
-* **Wallace Rodrigues de Santana** - UPM
+
 
 **Instituição:** Faculdade de Computação e Informática - Universidade Presbiteriana Mackenzie (UPM)
 
