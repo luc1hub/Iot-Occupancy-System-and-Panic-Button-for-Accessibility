@@ -1,62 +1,116 @@
 # Iot-best-practices
 The aim of this repository is to share Iot best practices by an article, a project and testing new technologies
-# Sistema de Ocupação e Botão de Pânico para Acessibilidade (IoT)
 
-Proposta de sistema embarcado IoT focado em segurança, inclusão e acessibilidade para pessoas com deficiência ou mobilidade reduzida em ambientes de saúde e espaços públicos, alinhado à **Meta 3.8 dos Objetivos de Desenvolvimento Sustentável (ODS) da ONU**.
+# Sistema de Ocupação e Botão de Pânico para Acessibilidade (IoT - Simulação Wokwi)
+
 
 ---
 
-## 👥 Autores
-* **Luciana Mieko Hassunuma** - UPM 
+##  1. Autor e Instituição
 
-
-**Instituição:** Faculdade de Computação e Informática - Universidade Presbiteriana Mackenzie (UPM)
+* **Luciana Mieko Hassunuma** — FCI / Universidade Presbiteriana Mackenzie (UPM) — 
 
 ---
 
-## 📌 Funcionalidades
-* **Detecção Automática de Ocupação:** Leitura de presença por sensor ultrassônico HC-SR04.
-* **Alerta de Emergência Prioritário:** Interrupção via Push-Button para disparo de socorro imediato.
-* **Atuação Local:** Sinalização visual (LED/Giroflex via Relé) e sonora (Buzzer).
-* **Telemetria Remota:** Comunicação assíncrona via protocolo MQTT (QoS 1 para emergências).
+
+##  2. Breve Descrição e Funcionamento
+
+Este projeto apresenta a simulação de um sistema IoT integrado de detecção de ocupação e botão de pânico emergencial, desenvolvido para garantir acessibilidade e segurança imediata a pessoas com deficiência ou mobilidade reduzida em ambientes de saúde e espaços públicos. A proposta alinha-se diretamente à **Meta 3.8 dos Objetivos de Desenvolvimento Sustentável (ODS) da ONU**, promovendo o acesso universal a serviços de saúde essenciais.
+
+O sistema opera de forma totalmente virtual na plataforma **Wokwi**, atuando em duas frentes simultâneas:
+
+1. **Detecção Automática de Ocupação:** O sensor ultrassônico realiza a leitura constante do ambiente. Quando a presença é identificada no espaço, o ESP32 transmite periodicamente o status de ocupação via protocolo MQTT.
+
+2. **Alerta Emergencial Prioritário:** Em situações de emergência (como quedas ou mal-estar), o acionamento do botão físico (Push-Button) ativa instantaneamente as sinalizações locais simuladas (LED/Giroflex e Buzzer) e envia um sinal de emergência crítico (QoS 1) via TCP/IP/MQTT para a central de monitoramento.
+
+##  3. Guia do Usuário e Operação
+
+### Modos de Operação no Simulador
+
+* **Modo Monitoramento (Ocupação):** Transmissão contínua e não bloqueante do estado do espaço (ocupado/livre). No Wokwi, o usuário pode alterar a distância do sensor ultrassônico clicando no componente HC-SR04 e arrastando o slider de distância.
+* **Modo Alerta (Emergência):** Ao clicar no botão de pânico no Wokwi:
+  * O **LED / Lâmpada de Emergência** acende imediatamente no ambiente virtual.
+  * O **Buzzer / Sirene** emite um alerta sonoro.
+  * Uma mensagem JSON prioritária é enviada para o tópico MQTT `sistema/acessibilidade/panico`.
 
 ---
 
-## 🛠️ Hardware e Ferramentas
+##  4. Descrição do Hardware e Componentes Simulados
 
-| Categoria | Item | Descrição |
-| :--- | :--- | :--- |
-| **Microcontrolador** | ESP32 | Arquitetura Dual-Core Xtensa LX6 com Wi-Fi nativo |
-| **Sensores** | HC-SR04 | Sensor Ultrassônico de Ocupação |
-| | Push-Button | Botão de Pânico para acionamento manual |
-| **Atuadores** | LED / Relé 5V | Sinalizador visual de emergência |
-| | Buzzer KPI-2911L | Sinalizador sonoro local |
-| **Software / IDE** | Arduino IDE / C++ | Programação do firmware embarcado |
-| **Simulador** | Wokwi | Validação lógica e de circuitos virtuais |
-| **Protocolo** | MQTT | Biblioteca `PubSubClient` para envio de mensagens JSON |
+### Componentes do Wokwi
 
----
+* **Placa Principal:** ESP32 DevKit V1 (Processador Dual-Core Xtensa LX6, suporte a Wi-Fi nativo na simulação).
+* **Sensor de Ocupação:** Sensor Ultrassônico HC-SR04 simulado.
+* **Botão de Emergência:** Push-Button virtual com lógica `INPUT_PULLUP`.
+* **Atuador Visual:** LED vermelho (representando a lâmpada de emergência / giroflex 12V acionado via relé).
+* **Atuador Sonoro:** Buzzer piezoelétrico simulado.
 
-## 📡 Tópicos MQTT e Payloads
+### Tabela de Mapeamento de Pinos (Pinagem no ESP32 - Wokwi)
 
-### 1. Emergência / Pânico
+| Componente Simulado | Função | Pino / GPIO no ESP32 | Tipo de Sinal |
+| :--- | :--- | :--- | :--- |
+| **Push-Button** | Botão de Pânico | `GPIO 4` | Entrada Digital (`INPUT_PULLUP`) |
+| **HC-SR04 (Trig)** | Disparo Ultrassônico | `GPIO 12` | Saída Digital |
+| **HC-SR04 (Echo)** | Leitura do Eco | `GPIO 14` | Entrada Digital |
+| **Buzzer** | Sirene de Alarme | `GPIO 13` | Saída Digital (PWM / Digital) |
+| **LED** | Lâmpada de Emergência | `GPIO 2` | Saída Digital |
+| **Alimentação** | VCC / GND | `3.3V` / `GND` | Barramento Elétrico Simulado |
+
+
+
+##  5. Interfaces, Comunicação TCP/IP e Protocolo MQTT
+
+O sistema utiliza a pilha **TCP/IP** simulada pelo ESP32 através da rede Wi-Fi virtual do Wokwi (`Wokwi-GUEST`) e executa o protocolo de camada de aplicação **MQTT** (Message Queuing Telemetry Transport) por meio da biblioteca `PubSubClient`.
+
+### Configuração da Rede e Broker
+
+* **Rede Simulada (Wokwi):** `Wokwi-GUEST` (Sem senha necessária)
+* **Broker MQTT (Nuvem Publica):** `broker.hivemq.com` (ou `test.mosquitto.org`)
+* **Porta TCP:** `1883`
+* **Arquitetura:** Publish / Subscribe
+
+### Estrutura de Tópicos e Payloads (JSON)
+
+#### 1. Alerta de Pânico (Emergência)
 * **Tópico:** `sistema/acessibilidade/panico`
-* **QoS:** `1` (At least once)
-* **Payload JSON:**
+* **QoS (Quality of Service):** `1` (At least once — garante a entrega do sinal crítico com confirmação `PUBACK`).
+* **Estrutura do Payload (JSON):**
   ```json
   {
-    "device_id": "esp32_acc_01",
+    "device_id": "esp32_wokwi_01",
     "event": "panic_alert",
     "status": "ACTIVE",
+    "priority": "HIGH",
     "timestamp": 1730828640
   }
-### 2. Ocupação do Espaço
+  ```
+
+#### 2. Telemetria de Ocupação
 * **Tópico:** `sistema/acessibilidade/ocupacao`
-* **QoS:** `0` (At most once)
-* **Payload JSON:**
-```json
-{
-  "device_id": "esp32_acc_01",
-  "occupancy": true,
-  "distance_cm": 45.2
-}
+* **QoS (Quality of Service):** `0` (At most once — envio regular de dados sem overhead).
+* **Estrutura do Payload (JSON):**
+  ```json
+  {
+    "device_id": "esp32_wokwi_01",
+    "occupancy": true,
+    "distance_cm": 45.2,
+    "timestamp": 1730828640
+  }
+  ```
+
+---
+
+---
+
+##  6. Instruções de Reprodução no Wokwi
+
+1. Acesse o ambiente online [Wokwi](https://wokwi.com).
+2. Crie um novo projeto escolhendo a placa **ESP32**.
+3. Copie o conteúdo da tabela/código do arquivo `diagram.json` para a aba **diagram.json** da simulação.
+4. Cole o código C++ acima no arquivo principal `sketch.ino`.
+5. Clique no botão **Play / Start Simulation**.
+6. **Para testar o pânico:** Clique no botão vermelho (Push-Button). O LED acenderá, o buzzer tocará e a mensagem `sistema/acessibilidade/panico` será transmitida via MQTT.
+7. **Para testar a ocupação:** Clique sobre o módulo `HC-SR04` e altere o slider de distância para simular a presença de um usuário no local.
+8. Para monitorar as mensagens remotamente, utilize um cliente MQTT como o [HiveMQ Web Client](http://www.hivemq.com/demos/websocket-client/) conectado a `broker.hivemq.com` na porta `8000` (WebSockets) e assine os tópicos `sistema/acessibilidade/#`.
+
+---
