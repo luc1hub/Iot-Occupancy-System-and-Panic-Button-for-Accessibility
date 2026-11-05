@@ -114,3 +114,26 @@ O sistema utiliza a pilha **TCP/IP** simulada pelo ESP32 através da rede Wi-Fi 
 8. Para monitorar as mensagens remotamente, utilize um cliente MQTT como o [HiveMQ Web Client](http://www.hivemq.com/demos/websocket-client/) conectado a `broker.hivemq.com` na porta `8000` (WebSockets) e assine os tópicos `sistema/acessibilidade/#`.
 
 ---
+flowchart TD
+    A([Início / Boot no Wokwi]) --> B[Inicializar Wi-Fi Virtual e Conectar ao Broker MQTT]
+    B --> C[Configurar GPIOs: Botão, HC-SR04, LED, Buzzer]
+    C --> D{Loop Principal - Temporização millis}
+    
+    %% Trilha do Botão de Pânico
+    D --> E{Botão de Pânico Pressionado?}
+    E -- Sim --> F[Acionar LED + Buzzer no Simulador]
+    F --> G[Publicar Mensagem no Tópico: sistema/acessibilidade/panico<br/>Payload: status: ACTIVE, QoS: 1]
+    
+    %% Trilha de Ocupação
+    E -- Não --> H[Desativar Atuadores Simulados]
+    H --> I[Efetuar Leitura Sem Bloqueio do HC-SR04]
+    I --> J{Distância Medida < Limiar Ocupado?}
+    
+    J -- Sim --> K[Publicar MQTT: sistema/acessibilidade/ocupacao<br/>Payload: occupancy: true, QoS: 0]
+    J -- Não --> L[Publicar MQTT: sistema/acessibilidade/ocupacao<br/>Payload: occupancy: false, QoS: 0]
+    
+    K --> M[Aguardar Intervalo de Aferição]
+    L --> M
+    G --> M
+    M --> D
+
