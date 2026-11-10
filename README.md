@@ -106,12 +106,12 @@ O sistema utiliza a pilha **TCP/IP** simulada pelo ESP32 através da rede Wi-Fi 
 
 1. Acesse o ambiente online [Wokwi](https://wokwi.com).
 2. Crie um novo projeto escolhendo a placa **ESP32**.
-3. Acesse a pasta: Sistema de ocupação e botão de panico deste diretório (https://github.com/luc1hub/Iot-best-practices/blob/main/Sistema%20de%20ocupa%C3%A7%C3%A3o%20e%20bot%C3%A3o%20de%20p%C3%A2nico%20para%20acessibilidade.zip), sem seguida,  Copie o conteúdo da tabela/código do arquivo `diagram.json` para a aba **diagram.json** da simulação.
+3. Acesse a pasta: Sistema de ocupação e botão de panico deste diretório (https://github.com/luc1hub/Iot-best-practices/blob/main/Sistema%20de%20ocupa%C3%A7%C3%A3o%20e%20bot%C3%A3o%20de%20p%C3%A2nico%20para%20acessibilidade.zip), em seguida,  Copie o conteúdo da tabela/código do arquivo `diagram.json` para a aba **diagram.json** da simulação.
 4. Cole o código C++ acima no arquivo principal `sketch.ino`.
 5. Clique no botão **Play / Start Simulation**.
 6. **Para testar o pânico:** Clique no botão vermelho (Push-Button). O LED acenderá, o buzzer tocará e a mensagem `sistema/acessibilidade/panico` será transmitida via MQTT.
 7. **Para testar a ocupação:** Clique sobre o módulo `HC-SR04` e altere o slider de distância para simular a presença de um usuário no local.
-8. Para monitorar as mensagens remotamente, utilize um cliente MQTT como o [HiveMQ Web Client](http://www.hivemq.com/demos/websocket-client/) conectado a `broker.hivemq.com` na porta `8000` (WebSockets) e assine os tópicos `sistema/acessibilidade/#`.
+8. Para monitorar as mensagens remotamente, utilize um cliente MQTT como o [HiveMQ Web Client](http://www.hivemq.com/demos/websocket-client/) conectado a `broker.hivemq.com` na porta `8000` (WebSockets) e assine os tópicos `sistema/acessibilidade/panico` e `sistema/acessibilidade/ocupacao`.
 # Projeto Wokwi
 
 [![Simular no Wokwi](https://img.shields.io/badge/Wokwi-Simular%20Projeto-blue?style=for-the-badge&logo=arduino)](https://wokwi.com/projects/480068600839514113)
@@ -126,7 +126,7 @@ Clique no botão acima ou no player abaixo para abrir a simulação interativa:
 ## 7. Detalhamento no webClient:
 Para testar a recepção das mensagens do ESP32 externamente sem precisar mexer em códigos adicionais, utilizamos um cliente MQTT baseado na web. Como o projeto está conectado ao broker público broker.hivemq.com na porta padrão 1883 (com WebSockets na porta 8000), a forma mais rápida e prática de ver os dados a chegar em tempo real é através do HiveMQ Web Websocket Client.
 Seguimos estes passos simples para configurar e testar:
-Acessar  o cliente web: Abra o navegador e acesse o site oficial do cliente web de testes do broker (pode pesquisar por HiveMQ Web Websocket Client ou acessar diretamente ao painel web público deles).
+Acessar  o cliente web: Abra o navegador e acesse o site oficial do cliente web de testes do broker (pode pesquisar por HiveMQ Web Websocket Client ou acessar diretamente ao painel web público deles): https://www.hivemq.com/demos/websocket-client/
  	Configurar a Conexão: 
 1.	No campo de endereço (Host), mantenha ou insira: broker.hivemq.com
 2.	No campo de porta (Port), use a porta de WebSockets: 8000 (ou 8884 para conexão segura wss).
