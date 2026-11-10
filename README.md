@@ -106,7 +106,7 @@ O sistema utiliza a pilha **TCP/IP** simulada pelo ESP32 através da rede Wi-Fi 
 
 1. Acesse o ambiente online [Wokwi](https://wokwi.com).
 2. Crie um novo projeto escolhendo a placa **ESP32**.
-3. Acesse a pasta: Sistema de ocupação e botão de panico deste diretório, sem seguida,  Copie o conteúdo da tabela/código do arquivo `diagram.json` para a aba **diagram.json** da simulação.
+3. Acesse a pasta: Sistema de ocupação e botão de panico deste diretório (https://github.com/luc1hub/Iot-best-practices/blob/main/Sistema%20de%20ocupa%C3%A7%C3%A3o%20e%20bot%C3%A3o%20de%20p%C3%A2nico%20para%20acessibilidade.zip), sem seguida,  Copie o conteúdo da tabela/código do arquivo `diagram.json` para a aba **diagram.json** da simulação.
 4. Cole o código C++ acima no arquivo principal `sketch.ino`.
 5. Clique no botão **Play / Start Simulation**.
 6. **Para testar o pânico:** Clique no botão vermelho (Push-Button). O LED acenderá, o buzzer tocará e a mensagem `sistema/acessibilidade/panico` será transmitida via MQTT.
