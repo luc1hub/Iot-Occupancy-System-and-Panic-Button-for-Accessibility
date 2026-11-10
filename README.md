@@ -112,6 +112,13 @@ O sistema utiliza a pilha **TCP/IP** simulada pelo ESP32 através da rede Wi-Fi 
 6. **Para testar o pânico:** Clique no botão vermelho (Push-Button). O LED acenderá, o buzzer tocará e a mensagem `sistema/acessibilidade/panico` será transmitida via MQTT.
 7. **Para testar a ocupação:** Clique sobre o módulo `HC-SR04` e altere o slider de distância para simular a presença de um usuário no local.
 8. Para monitorar as mensagens remotamente, utilize um cliente MQTT como o [HiveMQ Web Client](http://www.hivemq.com/demos/websocket-client/) conectado a `broker.hivemq.com` na porta `8000` (WebSockets) e assine os tópicos `sistema/acessibilidade/#`.
+# Projeto Wokwi
+
+[![Simular no Wokwi](https://img.shields.io/badge/Wokwi-Simular%20Projeto-blue?style=for-the-badge&logo=arduino)](https://wokwi.com/projects/480068600839514113)
+
+Clique no botão acima ou no player abaixo para abrir a simulação interativa:
+
+[<img src="https://assets.wokwi.com/landing/wokwi-logo.svg" width="300" alt="Abrir Simulação no Wokwi">](https://wokwi.com/projects/480068600839514113)
 
 ---
 ---
