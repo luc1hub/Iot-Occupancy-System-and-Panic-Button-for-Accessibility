@@ -1,5 +1,5 @@
-# Iot-best-practices
-The aim of this repository is to share Iot best practices by an article, a project and testing new technologies
+# Iot-Occupancy-System-and-Panic-Button-for-Accessibility
+The aim of this repository is to share Iot Occupancy System and Panic Button for Accessibility by a Wokwi project
 
 # Sistema de Ocupação e Botão de Pânico para Acessibilidade (IoT - Simulação Wokwi)
 
